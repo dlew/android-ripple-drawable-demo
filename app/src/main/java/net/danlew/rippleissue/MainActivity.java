@@ -9,13 +9,13 @@ import android.view.View;
 
 public class MainActivity extends Activity {
 
-    private boolean mFixBug;
-
     private View mLeftContainer;
     private View mRightContainer;
 
     private View mLeftButton;
     private View mRightButton;
+
+    private MenuItem mFixMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
             // to reset its drawable state; but if you have a button revealing a View
             // (but not hiding itself) you need to be more careful so you don't instantly
             // cancel the ripple animation.
-            if (mFixBug) {
+            if (mFixMenuItem.isChecked()) {
                 ViewCompat.jumpDrawablesToCurrentState(mLeftContainer);
                 ViewCompat.jumpDrawablesToCurrentState(mRightContainer);
             }
@@ -53,14 +53,14 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mFixMenuItem = menu.findItem(R.id.toggle_fix);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.toggle_fix) {
-            mFixBug = !mFixBug;
-            item.setChecked(mFixBug);
+        if (item == mFixMenuItem) {
+            mFixMenuItem.setChecked(!mFixMenuItem.isChecked());
             return true;
         }
 

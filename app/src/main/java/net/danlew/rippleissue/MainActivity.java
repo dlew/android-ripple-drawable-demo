@@ -2,11 +2,14 @@ package net.danlew.rippleissue;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends Activity {
+
+    private boolean mFixBug;
 
     private View mLeftContainer;
     private View mRightContainer;
@@ -35,25 +38,29 @@ public class MainActivity extends Activity {
         public void onClick(View v) {
             mLeftContainer.setVisibility(v == mLeftButton ? View.GONE : View.VISIBLE);
             mRightContainer.setVisibility(v == mRightButton ? View.GONE : View.VISIBLE);
+
+            // In this case, we know that whichever View is becoming visible, we want it
+            // to reset its drawable state; but if you have a button revealing a View
+            // (but not hiding itself) you need to be more careful so you don't instantly
+            // cancel the ripple animation.
+            if (mFixBug) {
+                ViewCompat.jumpDrawablesToCurrentState(mLeftContainer);
+                ViewCompat.jumpDrawablesToCurrentState(mRightContainer);
+            }
         }
     };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.toggle_fix) {
+            mFixBug = !mFixBug;
+            item.setChecked(mFixBug);
             return true;
         }
 

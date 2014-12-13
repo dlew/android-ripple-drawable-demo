@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">Ripple Issue</string>
-    <string name="press_me">Press Me!</string>
-    <string name="action_settings">Settings</string>
+    <string name="click_me">Click Me</string>
+    <string name="action_fix">Fix</string>
     <string name="explanation">Click repeatedly between the two buttons and watch what happens with the RippleDrawable.</string>
 
 </resources>

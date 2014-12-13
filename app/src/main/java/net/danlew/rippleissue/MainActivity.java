@@ -4,14 +4,39 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends Activity {
+
+    private View mLeftContainer;
+    private View mRightContainer;
+
+    private View mLeftButton;
+    private View mRightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        mLeftContainer = findViewById(R.id.left_container);
+        mRightContainer = findViewById(R.id.right_container);
+
+        mLeftButton = findViewById(R.id.left_button);
+        mLeftButton.setOnClickListener(mOnClickListener);
+
+        mRightButton = findViewById(R.id.right_button);
+        mRightButton.setOnClickListener(mOnClickListener);
     }
+
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mLeftContainer.setVisibility(v == mLeftButton ? View.GONE : View.VISIBLE);
+            mRightContainer.setVisibility(v == mRightButton ? View.GONE : View.VISIBLE);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
